@@ -11,6 +11,11 @@ const HomeScreen = ({ navigation }) => {
         <Text style={styles.buttonText}>Tips Memasak</Text>
       </Pressable>
 
+<Pressable style={styles.button} onPress={() => navigation.navigate("Form")}>
+  <Text style={styles.buttonText}>Tambah Data</Text>
+</Pressable>
+
+
       <Pressable style={styles.button} onPress={() => navigation.navigate("Recipe")}>
         <Text style={styles.buttonText}>Resep Masakan</Text>
       </Pressable>

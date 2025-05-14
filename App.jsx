@@ -2,11 +2,12 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-// Path disesuaikan dengan struktur folder kamu
+// Import screens
 import HomeScreen from "./src/components/HomeScreen";
 import CookingTipsScreen from "./src/components/CookingTipsScreen";
 import RecipeScreen from "./src/components/RecipeScreen";
-import RecipeListScreen from "./src/components/RecipeListScreen"; // ✅ Tambahan baru
+import RecipeListScreen from "./src/components/RecipeListScreen";
+import FormScreen from "./src/components/FormScreen"; // ✅ Tambahan screen form
 
 const Stack = createNativeStackNavigator();
 
@@ -31,8 +32,13 @@ export default function App() {
         />
         <Stack.Screen
           name="RecipeList"
-          component={RecipeListScreen} // ✅ Tambahan baru
+          component={RecipeListScreen}
           options={{ title: "Daftar Resep" }}
+        />
+        <Stack.Screen
+          name="Form"
+          component={FormScreen}
+          options={{ title: "Tambah Data" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
