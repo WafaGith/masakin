@@ -111,10 +111,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "#333",
+    fontFamily: fontType.regular,
   },
   profileEmail: {
     fontSize: 14,
     color: "#666",
+    fontFamily: fontType.regular,
   },
   menuContainer: {
     backgroundColor: "#fff",
@@ -134,5 +136,6 @@ const styles = StyleSheet.create({
   menuText: {
     fontSize: 16,
     color: "#333",
+    fontFamily: fontType.regular,
   },
 });

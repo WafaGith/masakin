@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
+    fontFamily: fontType.regular,
   },
   categoryContainer: {
     flexDirection: "row",
@@ -167,12 +168,14 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
     fontSize: 16,
+    fontFamily: fontType.regular,
   },
   recommendTitle: {
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
     color: "#333",
+    fontFamily: fontType.regular,
   },
   card: {
     backgroundColor: "#fff",
@@ -190,5 +193,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#333",
     fontWeight: "bold",
+    fontFamily: fontType.regular,
   },
 });

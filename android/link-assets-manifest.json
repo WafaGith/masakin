@@ -1,0 +1,29 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/CAOOLI.ttf",
+      "sha1": "6894313768e97076b3e886abd7593340c2c724bb"
+    },
+    {
+      "path": "src/assets/fonts/Coolvetica Bold.otf",
+      "sha1": "06d86c462f7c0e8ee86ebb657faa4b7b315e0a4e"
+    },
+    {
+      "path": "src/assets/fonts/Coolvetica Regular Italic.otf",
+      "sha1": "802ddf4faabb3ac116b767af1f3f92563e628384"
+    },
+    {
+      "path": "src/assets/fonts/Coolvetica Regular.otf",
+      "sha1": "d12e328ab2625143cfb3aca4e2b5832a4ba1be41"
+    },
+    {
+      "path": "src/assets/fonts/Coolvetica Rg Cond.otf",
+      "sha1": "d19b24debe1556445dfff29f7d596c8561b9f270"
+    },
+    {
+      "path": "src/assets/fonts/Coolvetica Rg Cram.otf",
+      "sha1": "4e006f95c8975b8ada4acc64ae9508dba559af58"
+    }
+  ]
+}

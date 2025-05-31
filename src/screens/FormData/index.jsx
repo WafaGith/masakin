@@ -7,9 +7,9 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
-  FlatList,
 } from "react-native";
-import { postTambahResep } from "../../services/api";
+import firestore from "@react-native-firebase/firestore";
+import { colors, fontType } from "../../theme"; // pastikan file theme sudah benar
 
 const kategoriOptions = ["ayam", "daging", "ikan", "tahu", "telur", "tempe"];
 
@@ -29,19 +29,24 @@ const FormData = () => {
 
     try {
       setLoading(true);
+
       const newResep = {
-        JudulTambahResep: judul,
-        Bahan: bahan,
-        Langkah: langkah,
-        Kategori: kategori,
+        judul,
+        bahan,
+        langkah,
+        kategori,
+        createdAt: firestore.FieldValue.serverTimestamp(),
       };
-      await postTambahResep(newResep);
+
+      await firestore().collection("resep").add(newResep);
+
       Alert.alert("Sukses", "Resep berhasil ditambahkan!");
       setJudul("");
       setBahan("");
       setLangkah("");
       setKategori("ayam");
     } catch (error) {
+      console.error("Firestore error:", error);
       Alert.alert("Gagal", "Terjadi kesalahan saat menyimpan resep.");
     } finally {
       setLoading(false);
@@ -52,7 +57,7 @@ const FormData = () => {
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Form Tambah Resep</Text>
 
-      <Text style={styles.judul}>Judul Resep</Text>
+      <Text style={styles.label}>Judul Resep</Text>
       <TextInput
         style={styles.input}
         placeholder="Judul Resep"
@@ -60,27 +65,27 @@ const FormData = () => {
         onChangeText={setJudul}
       />
 
-      <Text style={styles.judul}>Bahan Bahan</Text>
+      <Text style={styles.label}>Bahan-bahan</Text>
       <TextInput
         style={[styles.input, styles.textArea]}
-        placeholder="Bahan-bahan"
+        placeholder="Masukkan bahan-bahan..."
         multiline
         numberOfLines={4}
         value={bahan}
         onChangeText={setBahan}
       />
 
-      <Text style={styles.judul}>Langkah Memasak</Text>
+      <Text style={styles.label}>Langkah Memasak</Text>
       <TextInput
         style={[styles.input, styles.textArea]}
-        placeholder="Langkah Memasak"
+        placeholder="Masukkan langkah-langkah memasak..."
         multiline
         numberOfLines={4}
         value={langkah}
         onChangeText={setLangkah}
       />
 
-      <Text style={styles.judul}>Kategori</Text>
+      <Text style={styles.label}>Kategori</Text>
       <TouchableOpacity
         style={styles.dropdown}
         onPress={() => setShowDropdown(!showDropdown)}
@@ -133,10 +138,12 @@ const styles = StyleSheet.create({
     color: "#F7944D",
     marginBottom: 20,
     textAlign: "center",
+    fontFamily: fontType.regular,
   },
-  judul: {
-    fontSize: 17,
+  label: {
+    fontSize: 16,
     marginBottom: 5,
+    fontFamily: fontType.regular,
   },
   input: {
     borderWidth: 1,
@@ -145,6 +152,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 15,
     backgroundColor: "#fff",
+    fontFamily: fontType.regular,
   },
   textArea: {
     height: 100,
@@ -161,6 +169,7 @@ const styles = StyleSheet.create({
   dropdownText: {
     fontSize: 16,
     color: "#333",
+    fontFamily: fontType.regular,
   },
   dropdownOptions: {
     borderWidth: 1,
@@ -176,6 +185,7 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 16,
+    fontFamily: fontType.regular,
   },
   button: {
     backgroundColor: "#F7944D",

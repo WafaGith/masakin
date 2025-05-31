@@ -8,6 +8,7 @@ import {
   ScrollView,
 } from "react-native";
 import * as Animatable from "react-native-animatable";
+import { colors, fontType } from "../../theme";
 import { useFocusEffect } from "@react-navigation/native";
 
 const categories = [
@@ -84,6 +85,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#F7944D",
     marginBottom: 16,
+    fontFamily: fontType.regular,
   },
   grid: {
     flexDirection: "row",
@@ -110,5 +112,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "#333",
+    fontFamily: fontType.regular,
   },
 });
