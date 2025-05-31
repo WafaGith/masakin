@@ -52,12 +52,13 @@ const Recipe = ({ navigation }) => {
               <Pressable
                 style={styles.card}
                 onPress={() =>
-                  navigation.navigate("RecipeDetail", { category: item.name })
+                  navigation.navigate("RecipeDetail", { category: item.name.toLowerCase() })
                 }
               >
                 <Image source={item.image} style={styles.image} />
                 <Text style={styles.label}>{item.name}</Text>
               </Pressable>
+
             </Animatable.View>
           ))}
         </View>

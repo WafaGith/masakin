@@ -1,101 +1,68 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { getTambahResep } from "../../services/api"; // pastikan path ini sesuai
 
 const recipes = {
-  Ayam: [
-    {
-      title: "Ayam Goreng",
-      ingredients: ["Ayam", "Bawang putih", "Ketumbar", "Garam"],
-      steps: "Lumuri ayam dengan bumbu halus, diamkan 30 menit, lalu goreng hingga matang.",
-    },
-    {
-      title: "Sate Ayam",
-      ingredients: ["Daging ayam", "Kecap manis", "Bawang merah", "Tusuk sate"],
-      steps: "Potong ayam, tusuk, lalu bakar sambil dioles bumbu kecap.",
-    },
-  ],
-  Ikan: [
-    {
-      title: "Ikan Bakar",
-      ingredients: ["Ikan", "Jeruk nipis", "Bumbu sambal", "Minyak"],
-      steps: "Bersihkan ikan, marinasi dengan bumbu, lalu bakar hingga matang.",
-    },
-    {
-      title: "Pepes Ikan",
-      ingredients: ["Ikan", "Daun pisang", "Bumbu pepes", "Cabai"],
-      steps: "Bumbui ikan, bungkus daun pisang, lalu kukus selama 30 menit.",
-    },
-  ],
-  Daging: [
-    {
-      title: "Rendang",
-      ingredients: ["Daging sapi", "Santan", "Bumbu rendang"],
-      steps: "Masak daging dengan bumbu dan santan hingga kuah menyusut.",
-    },
-    {
-      title: "Semur Daging",
-      ingredients: ["Daging sapi", "Kecap manis", "Bawang merah", "Pala"],
-      steps: "Rebus daging dengan bumbu hingga empuk.",
-    },
-  ],
-  Tahu: [
-    {
-      title: "Tahu Isi",
-      ingredients: ["Tahu", "Wortel", "Kol", "Bumbu halus"],
-      steps: "Isi tahu dengan sayur, celupkan adonan, lalu goreng.",
-    },
-    {
-      title: "Tahu Balado",
-      ingredients: ["Tahu", "Cabai merah", "Bawang putih", "Garam"],
-      steps: "Goreng tahu lalu tumis bersama bumbu balado.",
-    },
-  ],
-  Telur: [
-    {
-      title: "Telur Dadar",
-      ingredients: ["Telur", "Daun bawang", "Garam", "Minyak"],
-      steps: "Kocok telur dengan bumbu, lalu goreng.",
-    },
-    {
-      title: "Telur Balado",
-      ingredients: ["Telur rebus", "Cabai merah", "Bawang", "Garam"],
-      steps: "Goreng telur rebus, tumis dengan bumbu balado.",
-    },
-  ],
-  Tempe: [
-    {
-      title: "Tempe Goreng",
-      ingredients: ["Tempe", "Bumbu kuning", "Minyak goreng"],
-      steps: "Iris tempe, baluri bumbu, lalu goreng hingga kecokelatan.",
-    },
-    {
-      title: "Orek Tempe",
-      ingredients: ["Tempe", "Kecap manis", "Cabai", "Bawang putih"],
-      steps: "Tumis tempe goreng bersama bumbu dan kecap.",
-    },
-  ],
+  // ...data lokal yang kamu punya
 };
 
 const RecipeDetail = ({ route }) => {
   const { category } = route.params;
   const data = recipes[category] || [];
 
+  const [customRecipes, setCustomRecipes] = useState([]);
+
+  useEffect(() => {
+    const fetchCustomRecipes = async () => {
+      try {
+        const allData = await getTambahResep();
+        const filtered = allData.filter(item => item.Kategori === category);
+        setCustomRecipes(filtered);
+      } catch (error) {
+        console.error("Gagal mengambil resep tambahan:", error.message);
+      }
+    };
+
+    fetchCustomRecipes();
+  }, [category]);
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Resep Berbahan {category}</Text>
-      {data.map((item, index) => (
-        <View key={index} style={styles.card}>
-          <Text style={styles.recipeTitle}>{item.title}</Text>
 
+      {/* Resep Lokal */}
+      {data.map((item, index) => (
+        <View key={`local-${index}`} style={styles.card}>
+          <Text style={styles.recipeTitle}>{item.title}</Text>
           <Text style={styles.subTitle}>Bahan:</Text>
-          {item.ingredients?.map((ing, idx) => (
+          {item.ingredients.map((ing, idx) => (
             <Text key={idx} style={styles.ingredient}>• {ing}</Text>
           ))}
-
           <Text style={styles.subTitle}>Cara Memasak:</Text>
           <Text style={styles.recipeSteps}>{item.steps}</Text>
         </View>
       ))}
+
+      {/* Resep Tambahan dari API */}
+      {customRecipes.length > 0 && (
+        <>
+          <Text style={[styles.subTitle, { marginTop: 20 }]}>
+            Resep Tambahan dari Pengguna:
+          </Text>
+
+          {customRecipes.map((item, index) => (
+            <View key={`custom-${index}`} style={styles.card}>
+              <Text style={styles.recipeTitle}>{item.JudulTambahResep}</Text>
+              <Text style={styles.subTitle}>Bahan:</Text>
+              {item.Bahan?.split("\n").map((bhn, idx) => (
+                <Text key={idx} style={styles.ingredient}>• {bhn}</Text>
+              ))}
+              <Text style={styles.subTitle}>Cara Memasak:</Text>
+              <Text style={styles.recipeSteps}>{item.Langkah}</Text>
+            </View>
+          ))}
+        </>
+      )}
     </ScrollView>
   );
 };
@@ -109,6 +76,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   title: {
+    marginTop: 38,
     fontSize: 20,
     fontWeight: "bold",
     color: "#F7944D",
